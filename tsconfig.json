@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "outFile":"index.js",
-        "target": "ES5",
+        "module":"CommonJS",
+        "target": "ES6",
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": false,
