@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "outFile":"index.js",
+        "target": "ES5",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": false,
+        "declaration": true,
+        "experimentalDecorators": false,
+        "noEmitOnError": true
+    }
+}

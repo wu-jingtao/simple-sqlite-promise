@@ -1,0 +1,33 @@
+{
+  "name": "simple-sqlite-promise",
+  "version": "0.0.1",
+  "description": "A simple sqlite3 wrap, using ES6 promise, written in Typescript",
+  "main": "bin/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mx601595686/simple-sqlite-promise.git"
+  },
+  "keywords": [
+    "sqlite3",
+    "promise",
+    "wrap",
+    "Typescript"
+  ],
+  "author": "wujingtao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mx601595686/simple-sqlite-promise/issues"
+  },
+  "homepage": "https://github.com/mx601595686/simple-sqlite-promise#readme",
+  "dependencies": {
+    "sqlite3": "^3.1.8"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.7",
+    "@types/sqlite3": "^2.2.32",
+    "gulp": "^3.9.1",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-typescript": "^3.1.5",
+    "typescript": "^2.2.1"
+  }
+}
