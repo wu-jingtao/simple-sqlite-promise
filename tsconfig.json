@@ -1,12 +1,15 @@
 {
     "compilerOptions": {
-        "module":"CommonJS",
+        "module":"commonjs",
         "target": "ES6",
         "noImplicitAny": true,
-        "removeComments": true,
+        "removeComments": false,
         "preserveConstEnums": false,
         "declaration": true,
         "experimentalDecorators": false,
         "noEmitOnError": true
-    }
+    },
+    "exclude": [
+        "node_modules"
+    ]
 }
