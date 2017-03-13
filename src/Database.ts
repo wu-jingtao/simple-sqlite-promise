@@ -54,7 +54,14 @@ class Database {
         this.db = db;
     }
 
-    async close() {
+    /**
+     * 关闭数据库连接
+     * 
+     * @returns {Promise<void>} 
+     * 
+     * @memberOf Database
+     */
+    close(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             this.db.close(err => {
                 err ? reject(err) : resolve();
@@ -62,11 +69,29 @@ class Database {
         });
     }
 
-    async run(sql: string, ...param: any[]) {
-        return new Promise<void>((resolve, reject) => {
-            this.db.run(sql, param, err => {
-                err ? reject(err) : resolve();
-            })
+    /**
+     * 执行sql语句，不返回sql执行结果。如果执行的是INSERT操作则返回插入id：lastID，如果是UPDATE或DELETE 则会返回受影响的行数changes
+     * 
+     * @param {string} sql 执行的sql语句
+     * @param {any} param 如果sql中使用了占位符，则可在这传递参数
+     * @returns {Promise<{ lastID?: string, changes?: number }>} 
+     * 
+     * @memberOf Database
+     */
+    run(sql: string, param: any): Promise<{ lastID?: string, changes?: number }> {
+        return new Promise((resolve, reject) => {
+            this.db.run(sql, param, function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({
+                        lastID: this.lastID,
+                        changes: this.changes
+                    });
+                }
+            });
         });
     }
+
+    
 }
