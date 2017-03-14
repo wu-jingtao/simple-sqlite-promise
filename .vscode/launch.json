@@ -6,6 +6,9 @@
     "configurations": [
         {
             "type": "node",
+            "runtimeArgs": [
+                "--harmony-async-await"
+            ],
             "request": "launch",
             "name": "启动程序",
             "program": "${file}",

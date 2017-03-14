@@ -17,6 +17,14 @@ class Database {
         return sqlite3.OPEN_CREATE;
     }
 
+    /**
+     * 开启以显示更多的错误消息。注意！这会严重影响数据库的性能
+     * 
+     * @static
+     * @returns {typeof Database} 
+     * 
+     * @memberOf Database
+     */
     static verbose(): typeof Database {
         sqlite3.verbose();
         return Database;
@@ -68,7 +76,6 @@ class Database {
         });
     }
 
-
     /**
      * 当有未捕获到的数据库错误时触发
      * 
@@ -81,15 +88,15 @@ class Database {
     }
 
     /**
-     * 执行单条sql语句，不返回sql执行结果。如果执行的是INSERT操作则返回插入id lastID，如果是UPDATE或DELETE 则会返回受影响的行数changes
+     * 执行"单条"sql语句(多条语句只执行第一条)，不返回sql执行结果。如果执行的是INSERT操作则返回插入id lastID，如果是UPDATE或DELETE 则会返回受影响的行数changes
      * 
      * @param {string} sql 执行的sql语句
      * @param {any} param 如果sql中使用了占位符，则可在这传递参数
-     * @returns {Promise<{ lastID?: string, changes?: number }>} 
+     * @returns {Promise<{ lastID?: number, changes?: number }>} 
      * 
      * @memberOf Database
      */
-    run(sql: string, param: any): Promise<{ lastID?: string, changes?: number }> {
+    run(sql: string, param: any): Promise<{ lastID?: number, changes?: number }> {
         return new Promise((resolve, reject) => {
             this.db.run(sql, param, function (err) {
                 if (err) {
@@ -101,6 +108,56 @@ class Database {
                     });
                 }
             });
+        });
+    }
+
+    /**
+     * 执行一条sql查询，返回第一行结果。结果按照{列名：值}键值对的形式返回。如果查询结果为空则返回空
+     * 
+     * @param {string} sql sql查询语句
+     * @param {*} param 如果sql中使用了占位符，则可在这传递参数
+     * @returns {Promise<any>} 查询返回的结果
+     * 
+     * @memberOf Database
+     */
+    get(sql: string, param: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.db.get(sql, param, function (err: Error, row: any) {
+                err == null ? resolve(row) : reject(err);
+            })
+        });
+    }
+
+    /**
+     * 执行一条sql查询，返回所有结果。结果按照{列名：值}键值对数组的形式返回。如果查询结果为空则返回空数组
+     * 
+     * @param {string} sql sql查询语句
+     * @param {*} param 如果sql中使用了占位符，则可在这传递参数
+     * @returns {Promise<any[]>} 查询返回的结果
+     * 
+     * @memberOf Database
+     */
+    all(sql: string, param: any): Promise<any[]> {
+        return new Promise((resolve, reject) => {
+            this.db.all(sql, param, function (err: Error, rows: any[]) {
+                err == null ? resolve(rows) : reject(err);
+            })
+        });
+    }
+
+    /**
+     * 执行多条sql语句，不返回任何结果。如果其中一条sql语句执行失败，则后续的sql语句将不会被执行（可以利用事务包裹所有语句来确保执行结果与预料一致）。
+     * 
+     * @param {string} sql 要执行的sql语句
+     * @returns {Promise<void>} 
+     * 
+     * @memberOf Database
+     */
+    exec(sql: string): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            this.db.exec(sql, function (err: Error) {
+                err == null ? resolve() : reject(err);
+            })
         });
     }
 }
