@@ -1,10 +1,9 @@
 /**
  * Created by 吴劲韬 on 2017/3/13.
  */
+import sqlite3 = require('sqlite3');
 
-import * as sqlite3 from 'sqlite3';
-
-export default class Database {
+class Database {
 
     static get OPEN_READONLY(): number {
         return sqlite3.OPEN_READONLY;
@@ -18,14 +17,14 @@ export default class Database {
         return sqlite3.OPEN_CREATE;
     }
 
-
     static verbose(): typeof Database {
         sqlite3.verbose();
         return Database;
     }
 
     /**
-     * 连接到指定的sqlite数据库
+     * 根据文件路径异步打开sqlite数据库
+     * 
      * @static
      * @param {string} filename sqlite数据库的文健路径
      * @param {number} [mode=Database.OPEN_CREATE | Database.OPEN_READWRITE] 连接模式
@@ -69,8 +68,20 @@ export default class Database {
         });
     }
 
+
     /**
-     * 执行sql语句，不返回sql执行结果。如果执行的是INSERT操作则返回插入id：lastID，如果是UPDATE或DELETE 则会返回受影响的行数changes
+     * 当有未捕获到的数据库错误时触发
+     * 
+     * @param {(err:Error)=>void} callback 回调函数
+     * 
+     * @memberOf Database
+     */
+    onDatabaseError(callback: (err: Error) => void): void {
+        this.db.on('error', callback);
+    }
+
+    /**
+     * 执行单条sql语句，不返回sql执行结果。如果执行的是INSERT操作则返回插入id lastID，如果是UPDATE或DELETE 则会返回受影响的行数changes
      * 
      * @param {string} sql 执行的sql语句
      * @param {any} param 如果sql中使用了占位符，则可在这传递参数
@@ -93,3 +104,5 @@ export default class Database {
         });
     }
 }
+
+export = Database;
