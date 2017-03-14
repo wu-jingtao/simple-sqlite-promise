@@ -4,7 +4,7 @@
 
 import * as sqlite3 from 'sqlite3';
 
-class Database {
+export default class Database {
 
     static get OPEN_READONLY(): number {
         return sqlite3.OPEN_READONLY;
@@ -30,11 +30,11 @@ class Database {
      * @param {string} filename sqlite数据库的文健路径
      * @param {number} [mode=Database.OPEN_CREATE | Database.OPEN_READWRITE] 连接模式
      * @param {boolean} [cached=false] 是否使用之前打开过的连接
-     * @returns 
+     * @returns {Promise<Database>} 返回数据库对象
      * 
      * @memberOf Database
      */
-    static async connectDB(filename: string, mode: number = Database.OPEN_CREATE | Database.OPEN_READWRITE, cached: boolean = false) {
+    static connectDB(filename: string, mode: number = Database.OPEN_CREATE | Database.OPEN_READWRITE, cached: boolean = false) {
         return new Promise<Database>(function (resolve, reject) {
             if (cached) {
                 const db = sqlite3.cached.Database(filename, mode, function (err) {
@@ -92,6 +92,4 @@ class Database {
             });
         });
     }
-
-    
 }

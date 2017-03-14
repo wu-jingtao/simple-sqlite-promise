@@ -6,13 +6,12 @@
     "isShellCommand": true,
     "tasks": [
         {
-            "taskName": "compile",
+            "taskName": "gulp-compile",
             "isBuildCommand": true,
             "problemMatcher": "$gulp-tsc"
         }
         , {
-            "taskName": "watch",
-            "isBackground": true,
+            "taskName": "gulp-watch",
             "problemMatcher": "$gulp-tsc"
         }
     ]
