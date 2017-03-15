@@ -92,14 +92,14 @@ class Database {
      * 执行"单条"sql语句(多条语句只执行第一条)，不返回sql执行结果。如果执行的是INSERT操作则返回插入id lastID，如果是UPDATE或DELETE 则会返回受影响的行数changes
      * 
      * @param {string} sql 执行的sql语句
-     * @param {any} param 如果sql中使用了占位符，则可在这传递参数
+     * @param {string | number | boolean | void} param 如果sql中使用了占位符，则可在这传递参数
      * @returns {Promise<{ lastID?: number, changes?: number }>} 
      * 
      * @memberOf Database
      */
-    run(sql: string, param: any): Promise<{ lastID?: number, changes?: number }> {
+    run(sql: string, ...param: (string | number | boolean | void)[]): Promise<{ lastID?: number, changes?: number }> {
         return new Promise((resolve, reject) => {
-            this._db.run(sql, param, function (err) {
+            this._db.run(sql, ...param, function (err: Error) {
                 if (err) {
                     reject(err);
                 } else {
@@ -116,12 +116,12 @@ class Database {
      * 执行一条sql查询，返回第一行结果。结果按照{列名：值}键值对的形式返回。如果查询结果为空则返回空
      * 
      * @param {string} sql sql查询语句
-     * @param {*} param 如果sql中使用了占位符，则可在这传递参数
+     * @param {string | number | boolean | void} param 如果sql中使用了占位符，则可在这传递参数
      * @returns {Promise<any>} 查询返回的结果
      * 
      * @memberOf Database
      */
-    get(sql: string, param: any): Promise<any> {
+    get(sql: string, ...param: (string | number | boolean | void)[]): Promise<any> {
         return new Promise((resolve, reject) => {
             this._db.get(sql, param, function (err: Error, row: any) {
                 err == null ? resolve(row) : reject(err);
@@ -133,12 +133,12 @@ class Database {
      * 执行一条sql查询，返回所有结果。结果按照{列名：值}键值对数组的形式返回。如果查询结果为空则返回空数组
      * 
      * @param {string} sql sql查询语句
-     * @param {*} param 如果sql中使用了占位符，则可在这传递参数
+     * @param {string | number | boolean | void} param 如果sql中使用了占位符，则可在这传递参数
      * @returns {Promise<any[]>} 查询返回的结果
      * 
      * @memberOf Database
      */
-    all(sql: string, param: any): Promise<any[]> {
+    all(sql: string, ...param: (string | number | boolean | void)[]): Promise<any[]> {
         return new Promise((resolve, reject) => {
             this._db.all(sql, param, function (err: Error, rows: any[]) {
                 err == null ? resolve(rows) : reject(err);
