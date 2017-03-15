@@ -5,6 +5,7 @@ import sqlite3 = require('sqlite3');
 
 class Database {
 
+    /**启动模式*/
     static get OPEN_READONLY(): number {
         return sqlite3.OPEN_READONLY;
     }
@@ -54,7 +55,7 @@ class Database {
         });
     }
 
-    // 原始的sqlite3数据库连接
+    /**原始的sqlite3数据库连接*/
     private _db: sqlite3.Database;
 
     private constructor(db: sqlite3.Database) {

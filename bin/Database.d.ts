@@ -1,4 +1,5 @@
 declare class Database {
+    /**启动模式*/
     static readonly OPEN_READONLY: number;
     static readonly OPEN_READWRITE: number;
     static readonly OPEN_CREATE: number;
@@ -23,6 +24,7 @@ declare class Database {
      * @memberOf Database
      */
     static connectDB(filename: string, mode?: number, cached?: boolean): Promise<Database>;
+    /**原始的sqlite3数据库连接*/
     private _db;
     private constructor(db);
     /**
