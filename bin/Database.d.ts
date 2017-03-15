@@ -37,11 +37,10 @@ declare class Database {
     /**
      * 注册事件监听器
      *
-     * @param {(err:Error)=>void} callback 回调函数
-     *
-     * @memberOf Database
+     * @param event 事件名
+     * @param callback 回调函数
      */
-    on(event: string, callback: (err: Error) => void): void;
+    on(event: string, callback: (...param: any[]) => void): void;
     /**
      * 执行"单条"sql语句(多条语句只执行第一条)，不返回sql执行结果。如果执行的是INSERT操作则返回插入id lastID，如果是UPDATE或DELETE 则会返回受影响的行数changes
      *

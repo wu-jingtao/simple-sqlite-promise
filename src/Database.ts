@@ -79,11 +79,10 @@ class Database {
     /**
      * 注册事件监听器
      * 
-     * @param {(err:Error)=>void} callback 回调函数
-     * 
-     * @memberOf Database
+     * @param event 事件名
+     * @param callback 回调函数
      */
-    on(event: string, callback: (err: Error) => void): void {
+    on(event: string, callback: (...param: any[]) => void): void {
         this._db.on(event, callback);
     }
 
