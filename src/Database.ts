@@ -54,11 +54,11 @@ class Database {
         });
     }
 
-    // sqlite数据库连接
-    private db: sqlite3.Database;
+    // 原始的sqlite3数据库连接
+    private _db: sqlite3.Database;
 
     private constructor(db: sqlite3.Database) {
-        this.db = db;
+        this._db = db;
     }
 
     /**
@@ -70,7 +70,7 @@ class Database {
      */
     close(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.db.close(err => {
+            this._db.close(err => {
                 err ? reject(err) : resolve();
             })
         });
@@ -84,7 +84,7 @@ class Database {
      * @memberOf Database
      */
     onDatabaseError(callback: (err: Error) => void): void {
-        this.db.on('error', callback);
+        this._db.on('error', callback);
     }
 
     /**
@@ -98,7 +98,7 @@ class Database {
      */
     run(sql: string, param: any): Promise<{ lastID?: number, changes?: number }> {
         return new Promise((resolve, reject) => {
-            this.db.run(sql, param, function (err) {
+            this._db.run(sql, param, function (err) {
                 if (err) {
                     reject(err);
                 } else {
@@ -122,7 +122,7 @@ class Database {
      */
     get(sql: string, param: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.db.get(sql, param, function (err: Error, row: any) {
+            this._db.get(sql, param, function (err: Error, row: any) {
                 err == null ? resolve(row) : reject(err);
             })
         });
@@ -139,7 +139,7 @@ class Database {
      */
     all(sql: string, param: any): Promise<any[]> {
         return new Promise((resolve, reject) => {
-            this.db.all(sql, param, function (err: Error, rows: any[]) {
+            this._db.all(sql, param, function (err: Error, rows: any[]) {
                 err == null ? resolve(rows) : reject(err);
             })
         });
@@ -155,7 +155,7 @@ class Database {
      */
     exec(sql: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.db.exec(sql, function (err: Error) {
+            this._db.exec(sql, function (err: Error) {
                 err == null ? resolve() : reject(err);
             })
         });

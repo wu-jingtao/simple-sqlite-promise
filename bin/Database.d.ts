@@ -23,7 +23,7 @@ declare class Database {
      * @memberOf Database
      */
     static connectDB(filename: string, mode?: number, cached?: boolean): Promise<Database>;
-    private db;
+    private _db;
     private constructor(db);
     /**
      * 关闭数据库连接
