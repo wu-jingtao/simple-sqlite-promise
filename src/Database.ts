@@ -41,16 +41,32 @@ class Database {
      * 
      * @memberOf Database
      */
-    static connectDB(filename: string, mode: number = Database.OPEN_CREATE | Database.OPEN_READWRITE, cached: boolean = false) {
+    static connectDB(filename: string, mode?: number, cached?: boolean): Promise<Database>;
+
+    /**
+     * 根据文件路径异步打开sqlite数据库
+     * 
+     * @static
+     * @param {string} filename sqlite数据库的文健路径
+     * @param {boolean} [cached=false] 是否使用之前打开过的连接
+     * @returns {Promise<Database>} 
+     * 
+     * @memberOf Database
+     */
+    static connectDB(filename: string, cached?: number | boolean): Promise<Database> {
         return new Promise<Database>(function (resolve, reject) {
-            if (cached) {
-                const db = sqlite3.cached.Database(filename, mode, function (err) {
+
+            const defaultMode = Database.OPEN_CREATE | Database.OPEN_READWRITE;
+
+            if (cached === true) {
+                const db = sqlite3.cached.Database(filename, defaultMode, function (err) {
+                    err ? reject(err) : resolve(new Database(db));
+                });
+            } else {
+                const db = new sqlite3.Database(filename, defaultMode, function (err) {
                     err ? reject(err) : resolve(new Database(db));
                 });
             }
-            const db = new sqlite3.Database(filename, mode, function (err) {
-                err ? reject(err) : resolve(new Database(db));
-            });
         });
     }
 

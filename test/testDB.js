@@ -9,7 +9,7 @@ const path = require('path');
         console.log(sql);
     });
 
-    db.on('error', function (err) { 
+    db.on('error', function (err) {
         console.error(err);
     });
 
@@ -29,9 +29,20 @@ const path = require('path');
         drop table gogo;
     `);
 
-    const tn = await db.run('drop table [test]');
+    const db2 = await Database.connectDB(path.resolve(__dirname, './test.db'), true);
 
+    const t11 = await db2.get('select * from test where id = ?', 111);
+    const t12 = await db2.all('select * from test where name = ?', 'test');
+
+    await db.run('drop table [test]');
     await db.close();
+
+    await db2.exec(`
+        create table gogo2(name text);
+        drop table gogo2;
+    `);
+
+    await db2.close();
 
     console.log('ok')
 })()
