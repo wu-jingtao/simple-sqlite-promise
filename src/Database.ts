@@ -5,7 +5,6 @@ import sqlite3 = require('sqlite3');
 
 class Database {
 
-    /**启动模式*/
     static get OPEN_READONLY(): number {
         return sqlite3.OPEN_READONLY;
     }

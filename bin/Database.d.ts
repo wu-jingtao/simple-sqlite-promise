@@ -1,5 +1,4 @@
 declare class Database {
-    /**启动模式*/
     static readonly OPEN_READONLY: number;
     static readonly OPEN_READWRITE: number;
     static readonly OPEN_CREATE: number;
