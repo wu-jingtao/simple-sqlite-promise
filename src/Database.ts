@@ -78,14 +78,14 @@ class Database {
     }
 
     /**
-     * 当有未捕获到的数据库错误时触发
+     * 注册事件监听器
      * 
      * @param {(err:Error)=>void} callback 回调函数
      * 
      * @memberOf Database
      */
-    onDatabaseError(callback: (err: Error) => void): void {
-        this._db.on('error', callback);
+    on(event: string, callback: (err: Error) => void): void {
+        this._db.on(event, callback);
     }
 
     /**

@@ -5,7 +5,11 @@ const path = require('path');
 (async function () {
     const db = await Database.connectDB(path.resolve(__dirname, './test.db'));
 
-    db.onDatabaseError(function (err) {
+    db.on('trace', function (sql) { //output executed sql
+        console.log(sql);
+    });
+
+    db.on('error', function (err) { 
         console.error(err);
     });
 
@@ -16,8 +20,9 @@ const path = require('path');
     const t5 = await db.run('insert into test values(?,?)', true, false);
     const t6 = await db.run('insert into test values(?,?)', null, undefined);
     const t7 = await db.get('select * from test');
-    const t8 = await db.get('select * from test where id = ?', 2);
-    const t9 = await db.all('select * from test where name = ?', 'test');
+    const t8 = await db.get('select * from test where id = ?', 111);
+    const t9 = await db.get('select * from test where id = ?', 2);
+    const t10 = await db.all('select * from test where name = ?', 'test');
 
     await db.exec(`
         create table gogo(name text);
