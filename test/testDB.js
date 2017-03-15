@@ -16,7 +16,9 @@ const path = require('path');
     `);
     const tn = await db.run('drop table [test]');
 
-    db.onDatabaseError(function (err) { });
+    db.onDatabaseError(function (err) {
+        console.error(err);
+    });
 
     await db.close();
 
