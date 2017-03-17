@@ -1,7 +1,7 @@
 {
   "name": "simple-sqlite-promise",
   "version": "0.1.2",
-  "description": "A simple sqlite3 wrap, using ES6 promise, written in Typescript。简单地用promise包装了一下sqlite3。用typescript写成",
+  "description": "A simple sqlite3 wrap, using ES6 promise, written in Typescript。     简单地用promise包装了一下sqlite3。用typescript写成",
   "main": "./bin/Database.js",
   "types":"./bin/Database.d.ts",
   "repository": {
