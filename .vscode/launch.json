@@ -6,21 +6,20 @@
     "configurations": [
         {
             "type": "node",
-            "runtimeArgs": [
-                "--harmony-async-await"
-            ],
             "request": "launch",
-            "name": "启动程序",
-            "program": "${file}",
-            "outFiles": []
-        },
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "附加到进程",
-            "address": "localhost",
-            "port": 5858,
-            "outFiles": []
+            "name": "测试调试",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "--require",
+                "ts-node/register",
+                "${workspaceRoot}/test/index.test.ts"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
         }
     ]
 }

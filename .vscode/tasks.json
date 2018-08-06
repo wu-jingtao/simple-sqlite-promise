@@ -1,18 +1,17 @@
 {
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
-    "version": "0.1.0",
-    "isShellCommand": true,
+    "version": "2.0.0",
     "tasks": [
         {
-            "taskName": "gulp-compile",
-            "command": "gulp compile",
-            "problemMatcher": "$gulp-tsc"
+            "label": "编译",
+            "type": "shell",
+            "command": "npm run compile"
         },
         {
-            "taskName": "gulp-watch",
-            "command": "gulp watch",
-            "problemMatcher": "$gulp-tsc"
+            "label": "测试",
+            "type": "shell",
+            "command": "npm run test"
         }
     ]
 }
