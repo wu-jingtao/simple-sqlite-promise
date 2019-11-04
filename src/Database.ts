@@ -1,10 +1,6 @@
-/**
- * Created by 吴劲韬 on 2017/3/13.
- */
-import sqlite3 = require('sqlite3');
+import * as sqlite3 from 'sqlite3';
 
 class Database {
-
     static get OPEN_READONLY(): number {
         return sqlite3.OPEN_READONLY;
     }
@@ -47,12 +43,14 @@ class Database {
         });
     }
 
-    private constructor(
-        /**
-         * 原始的sqlite3数据库连接
-         */
-        private _db: sqlite3.Database
-    ) { }
+    /**
+     * 原始的sqlite3数据库连接
+     */
+    private readonly _db: sqlite3.Database;
+
+    private constructor(db: sqlite3.Database) {
+        this._db = db;
+    }
 
     /**
      * 关闭数据库连接
@@ -63,10 +61,10 @@ class Database {
         });
     }
 
-    on(event: "trace", listener: (sql: string) => void): void;
-    on(event: "profile", listener: (sql: string, time: number) => void): void;
-    on(event: "error", listener: (err: Error) => void): void;
-    on(event: "open" | "close", listener: () => void): void;
+    on(event: 'trace', listener: (sql: string) => void): void;
+    on(event: 'profile', listener: (sql: string, time: number) => void): void;
+    on(event: 'error', listener: (err: Error) => void): void;
+    on(event: 'open' | 'close', listener: () => void): void;
     on(event: string, callback: (...param: any[]) => void): void {
         this._db.on(event, callback);
     }
@@ -76,7 +74,7 @@ class Database {
      * @param sql 执行的sql语句
      * @param param 如果sql中使用了占位符，则可在这传递参数
      */
-    run(sql: string, ...param: any[]): Promise<{ lastID: number, changes: number }> {
+    run(sql: string, ...param: any[]): Promise<{ lastID: number; changes: number }> {
         return new Promise((resolve, reject) => {
             this._db.run(sql, ...param, function (this: sqlite3.RunResult, err: Error) {
                 err ? reject(err) : resolve({ lastID: this.lastID, changes: this.changes });
@@ -85,11 +83,11 @@ class Database {
     }
 
     /**
-     * 执行一条sql查询，返回第一行结果。结果按照{列名：值}键值对的形式返回。如果查询结果为空则返回空
+     * 执行一条sql查询，返回第一行结果。结果按照{列名：值}键值对的形式返回。如果查询结果为空则返回undefined
      * @param sql sql查询语句
      * @param param 如果sql中使用了占位符，则可在这传递参数
      */
-    get(sql: string, ...param: any[]): Promise<any> {
+    get(sql: string, ...param: any[]): Promise<{ [key: string]: any } | undefined> {
         return new Promise((resolve, reject) => {
             this._db.get(sql, param, function (err: Error, row: any) {
                 err ? reject(err) : resolve(row);
@@ -102,7 +100,7 @@ class Database {
      * @param sql sql查询语句
      * @param param 如果sql中使用了占位符，则可在这传递参数
      */
-    all(sql: string, ...param: any[]): Promise<any[]> {
+    all(sql: string, ...param: any[]): Promise<{ [key: string]: any }[]> {
         return new Promise((resolve, reject) => {
             this._db.all(sql, param, function (err: Error, rows: any[]) {
                 err ? reject(err) : resolve(rows);
@@ -112,11 +110,7 @@ class Database {
 
     /**
      * 执行多条sql语句，不返回任何结果。如果其中一条sql语句执行失败，则后续的sql语句将不会被执行（可以利用事务包裹所有语句来确保执行结果与预料一致）。
-     * 
-     * @param {string} sql 要执行的sql语句
-     * @returns {Promise<void>} 
-     * 
-     * @memberOf Database
+     * @param sql 要执行的sql语句
      */
     exec(sql: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {

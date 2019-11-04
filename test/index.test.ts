@@ -6,9 +6,9 @@ import Database = require('../src/Database');
 const dbPath = path.resolve(__dirname, './test.db');
 
 it('测试创建数据库链接', async function () {
-    const db = await Database.connectDB(dbPath);
-    const db2 = await Database.connectDB(dbPath, Database.OPEN_READWRITE);
-    const dbe = await Database.connectDB(dbPath, Database.OPEN_READONLY, true);
+    await Database.connectDB(dbPath);
+    await Database.connectDB(dbPath, Database.OPEN_READWRITE);
+    await Database.connectDB(dbPath, Database.OPEN_READONLY, true);
 });
 
 describe('测试数据库操作', function () {

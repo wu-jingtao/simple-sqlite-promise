@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "测试调试",
+            "name": "单元测试",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [
                 "-u",

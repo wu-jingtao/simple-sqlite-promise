@@ -1,7 +1,9 @@
+.github/
 .vscode/
-test/
-src/
+.eslintrc.json
+.gitattributes
 !bin/
-README.md
+src/
+test/
 gulpfile.js
 tsconfig.json
