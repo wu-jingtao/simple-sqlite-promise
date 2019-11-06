@@ -1,4 +1,4 @@
-import * as sqlite3 from 'sqlite3';
+import sqlite3 from 'sqlite3';
 
 class Database {
     static get OPEN_READONLY(): number {

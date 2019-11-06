@@ -1,7 +1,7 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import expect = require('expect.js');
-import Database = require('../src/Database');
+import fs from 'fs';
+import path from 'path';
+import expect from 'expect.js';
+import Database from '../src/Database';
 
 const dbPath = path.resolve(__dirname, './test.db');
 
