@@ -1,6 +1,15 @@
 import sqlite3 from 'sqlite3';
 
 class Database {
+    /**
+     * 原始的sqlite3数据库连接
+     */
+    private readonly _db: sqlite3.Database;
+
+    private constructor(db: sqlite3.Database) {
+        this._db = db;
+    }
+
     static get OPEN_READONLY(): number {
         return sqlite3.OPEN_READONLY;
     }
@@ -44,15 +53,6 @@ class Database {
     }
 
     /**
-     * 原始的sqlite3数据库连接
-     */
-    private readonly _db: sqlite3.Database;
-
-    private constructor(db: sqlite3.Database) {
-        this._db = db;
-    }
-
-    /**
      * 关闭数据库连接
      */
     close(): Promise<void> {
@@ -76,7 +76,7 @@ class Database {
      */
     run(sql: string, ...param: any[]): Promise<{ lastID: number; changes: number }> {
         return new Promise((resolve, reject) => {
-            this._db.run(sql, ...param, function (this: sqlite3.RunResult, err: Error) {
+            this._db.run(sql, ...param, function (this: sqlite3.RunResult, err: Error | null) {
                 err ? reject(err) : resolve({ lastID: this.lastID, changes: this.changes });
             });
         });
@@ -89,7 +89,7 @@ class Database {
      */
     get(sql: string, ...param: any[]): Promise<{ [key: string]: any } | undefined> {
         return new Promise((resolve, reject) => {
-            this._db.get(sql, param, function (err: Error, row: any) {
+            this._db.get(sql, param, function (err: Error | null, row: any) {
                 err ? reject(err) : resolve(row);
             });
         });
@@ -102,7 +102,7 @@ class Database {
      */
     all(sql: string, ...param: any[]): Promise<{ [key: string]: any }[]> {
         return new Promise((resolve, reject) => {
-            this._db.all(sql, param, function (err: Error, rows: any[]) {
+            this._db.all(sql, param, function (err: Error | null, rows: any[]) {
                 err ? reject(err) : resolve(rows);
             });
         });
