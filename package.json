@@ -11,7 +11,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/mx601595686/simple-sqlite-promise.git"
+        "url": "git+https://github.com/wu-jingtao/simple-sqlite-promise.git"
     },
     "keywords": [
         "sqlite3",
@@ -22,9 +22,9 @@
     "author": "wujingtao",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/mx601595686/simple-sqlite-promise/issues"
+        "url": "https://github.com/wu-jingtao/simple-sqlite-promise/issues"
     },
-    "homepage": "https://github.com/mx601595686/simple-sqlite-promise#readme",
+    "homepage": "https://github.com/wu-jingtao/simple-sqlite-promise#readme",
     "devDependencies": {
         "@types/expect.js": "^0.3.29",
         "@types/mocha": "^7.0.2",
